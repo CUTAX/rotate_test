@@ -1,11 +1,12 @@
 import peasy.*;
 PeasyCam cam;
 
-
 XyzVector XyzVector;
 
-
-
+float theta=0, psi=0;
+float pitch=10;
+float psiPitch=20;
+int psiNum;
 
 PFont font;
 int textSize=20;
@@ -24,14 +25,46 @@ void setup() {
 
   XyzVector=new XyzVector(100);
 
- 
-    font =loadFont("OCRAExtended-48.vlw");
+  font =loadFont("OCRAExtended-48.vlw");
   textFont(font);
 }
 
 void draw() {
-  background(0);
-   XyzVector.display();
-rect(-50,0,50,50);
+theta=mouseX;
+psi=mouseY;
 
+  background(0);
+  XyzVector.display();
+  pushMatrix();
+  rotateX(radians(90));
+  rotateY(radians(psi));
+  rotateZ(radians(theta));
+  stroke(255);
+  psiNum=floor(90/psiPitch);
+  for (int j=-psiNum; j<=psiNum; j++) {
+    pushMatrix();
+    rotateY(radians(j*psiPitch));
+    for (int i=-10; i<=10; i++) {
+      line(i*pitch, 50, i*pitch, 0);
+    }
+    popMatrix();
+  }
+  popMatrix();
 }
+
+
+//int setmouseX;
+//void mousePresse() {
+//  if (mouseButton == LEFT&&mouseButton==RIGHT) {
+//    setmouseX=mouseX;
+//  }
+//}
+
+//void mouseDragged() {
+//  if (mouseButton == LEFT) {
+//    theta=theta+mouseX-setmouseX;
+//  }
+//  if (mouseButton == RIGHT) {
+//    psi=psi+mouseX-setmouseX;
+//  }
+//}
